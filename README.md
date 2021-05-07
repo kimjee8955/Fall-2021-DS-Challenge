@@ -6,7 +6,27 @@ generated the answers.)
 
 ### (a) Think about what could be going wrong with our calculation. Think about a better way to evaluate this data. 
 ### (b) What metric would you report for this dataset?
+
+1. I would report the median because it is less sensitive to outliers and our dataset is skewed.
+2. If I want to report the mean, I can take advantage of the Central Limit Theorem and find the mean of the sampling distribution of the sample means.
+
 ### (c) What is its value?
+
+1. The AOV is `$284` if we find the median of the entire dataset. The AOV is `$272` if we find the median after getting rid of outliers using IQR. However, it must be noted that this way of removing outliers is quite naive and we would need more domain knowledge to be more selective about the process. 
+2. The AOV is `$283.29` if we find the mean of the sampling distribution of the sample means after getting rid of outliers. The code snippet below demonstrates how I did the sampling (I used a sample size of 500 and did 10000 iterations). We can see that the sampling distribution is approximately normal after performing this method.
+```python
+np.random.seed(1)
+size= 500
+sample_means = np.repeat(0,10000)
+
+for i in range(10000):
+    sample = df_clean['order_amount'].sample(n=size)
+    sample_means[i] = sample.mean()
+
+sample_means.mean()
+```
+<img width="395" alt="Screen Shot 2021-05-06 at 11 05 18 PM" src="https://user-images.githubusercontent.com/54642556/117404858-88ada500-aebf-11eb-8aa0-892c03e14d43.png">
+
 
 
 ## Question 2
