@@ -14,10 +14,22 @@ df.order_amount.describe()
 ```
 ![Screen Shot 2021-05-07 at 4 11 12 PM](https://user-images.githubusercontent.com/54642556/117516780-dae9d700-af4e-11eb-9f65-61d3601d5e0c.png)
 
-From both the histogram and the boxplot, we can see that we have many outliers and the data is heavily right-skewed. Let's further explore why we are getting such large outliers because they are causing AOV to be high.
+From both the histogram and the boxplot below, we can see that we have many outliers and the data is heavily right-skewed. Let's further explore why we are getting such large outliers because they are causing AOV to be high.
 
 ![Screen Shot 2021-05-07 at 4 11 48 PM](https://user-images.githubusercontent.com/54642556/117516797-f05f0100-af4e-11eb-97f0-de24d1ac0956.png)
 ![Screen Shot 2021-05-07 at 4 12 01 PM](https://user-images.githubusercontent.com/54642556/117516803-f7860f00-af4e-11eb-8447-e11e66fe3ecb.png)
+
+First I made a table of outliers by filtering the dataset by order_amounts that are larger than $Q3+1.5*IQR$. 
+```python
+Q1 = df.order_amount.quantile(q=0.25)
+Q2 = df.order_amount.quantile(q=0.5)
+Q3 = df.order_amount.quantile(q=0.75)
+IQR = Q3 - Q1
+outliers = df[df.order_amount>=Q3+1.5*IQR]
+outliers.sort_values(by='order_amount',ascending=False).head(20)
+```
+![Screen Shot 2021-05-07 at 4 17 22 PM](https://user-images.githubusercontent.com/54642556/117517072-b6422f00-af4f-11eb-8b72-cb8ec6eca74d.png)
+
 
 
 
