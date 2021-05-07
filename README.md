@@ -13,6 +13,14 @@ generated the answers.)
 ### (c) What is its value?
 
 1. The AOV is `$284` if we find the median of the entire dataset. The AOV is `$272` if we find the median after getting rid of outliers using IQR. However, it must be noted that this way of removing outliers is quite naive and we would need more domain knowledge to be more selective about the process. 
+```python
+#median
+df.order_amount.median()
+
+#remove outliers
+df_clean = df[(df.order_amount < Q2 + IQR * 1.5) & (df.order_amount > Q2 - IQR * 1.5)]
+df_clean['order_amount'].median()
+```
 2. The AOV is `$283.29` if we find the mean of the sampling distribution of the sample means after getting rid of outliers. The code snippet below demonstrates how I did the sampling (I used a sample size of 500 and did 10000 iterations). We can see that the sampling distribution is approximately normal after performing this method.
 ```python
 np.random.seed(1)
