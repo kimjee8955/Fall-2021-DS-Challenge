@@ -34,25 +34,22 @@ LIMIT 1
 ### (c) What product was ordered the most by customers in Germany?
 
 Boston Crab Meat (Product ID 40) was ordered the most by customers in Germany.
-For this problem, I decided to first make a temporary table to gather information that is 
-scattered across different tables. I joined Orders, OrderDetails, Products, and Customers
-then grouped the temporary table by ProductID so I could find the number of sales 
-for each product using SUM. Then I filtered the result by orders placed in Germany and 
-chose the product with most orders from the temp table using MAX.
+I joined Orders, OrderDetails, Products, and Customers then grouped the resulting 
+table by ProductID so I could find the number of total sales for each product using SUM.
+Then I filtered that result by orders placed in Germany and chose the product with 
+most orders.
 
 ```sql
-WITH temp as (SELECT od.ProductID, p.ProductName,
-	      SUM(Quantity) AS total
-    FROM OrderDetails od
-    JOIN Orders o 
-    	ON od.OrderID = o.OrderID
-    JOIN Products p 
-    	ON od.ProductID = p.ProductID
-    JOIN Customers c
-    	ON c.CustomerID = o.CustomerID
-    WHERE Country = "Germany"
-    GROUP BY od.ProductID
-   )
- SELECT * FROM temp
- WHERE total = (SELECT MAX(total) FROM temp)
+SELECT od.ProductID, p.ProductName,SUM(Quantity) AS total
+FROM OrderDetails od
+JOIN Orders o 
+ON od.OrderID = o.OrderID
+JOIN Products p 
+ON od.ProductID = p.ProductID
+JOIN Customers c
+ON c.CustomerID = o.CustomerID
+WHERE Country = "Germany" 
+GROUP BY od.ProductID
+ORDER BY total DESC
+LIMIT 1;
 ```
