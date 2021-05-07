@@ -1,5 +1,12 @@
 # Fall-2021-DS-Challenge
 
+## Question 1
+
+### (a) Think about what could be going wrong with our calculation. Think about a better way to evaluate this data. 
+### (b) What metric would you report for this dataset?
+### (c) What is its value?
+
+
 ## Question 2
 
 ### (a) How many orders were shipped by Speedy Express in total?
