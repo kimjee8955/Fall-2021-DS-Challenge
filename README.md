@@ -5,6 +5,9 @@
 generated the answers.)
 
 ### (a) Think about what could be going wrong with our calculation. Think about a better way to evaluate this data. 
+
+The high AOV of \\$3,145.13 comes from naively calculating the mean of the order_amount of a highly right-skewed data without examining outliers such as bulk orders and stores that sell more expensive brands.
+
 ### (b) What metric would you report for this dataset?
 
 1. I would report the median because it is less sensitive to outliers and our dataset is skewed.
