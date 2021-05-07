@@ -2,7 +2,7 @@
 
 ## Question 1
 (The answers below are a summary of my insights. Please take a look at the jupyter notebook I have uploaded for the full code 
-generated the answers.)
+that generated the answers.)
 
 ### (a) Think about what could be going wrong with our calculation. Think about a better way to evaluate this data. 
 
