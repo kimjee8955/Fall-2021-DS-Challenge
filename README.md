@@ -1,8 +1,8 @@
 # Fall-2021-DS-Challenge
 
 ## Question 1
-(The answers below are a summary of my insights. Please take a look at the jupyter notebook I have uploaded for the full code 
-that generated the answers.)
+(The answers have code snippets to show the code that generated my outputs and plots. For the full code, 
+please check out the jupyter notebook that I have also uploaded in this repository.)
 
 ### (a) Think about what could be going wrong with our calculation. Think about a better way to evaluate this data. 
 
@@ -19,7 +19,7 @@ From both the histogram and the boxplot below, we can see that we have many outl
 ![Screen Shot 2021-05-07 at 4 11 48 PM](https://user-images.githubusercontent.com/54642556/117516797-f05f0100-af4e-11eb-97f0-de24d1ac0956.png)
 ![Screen Shot 2021-05-07 at 4 12 01 PM](https://user-images.githubusercontent.com/54642556/117516803-f7860f00-af4e-11eb-8447-e11e66fe3ecb.png)
 
-First I made a table of outliers by filtering the dataset by order_amounts that are larger than $Q3+1.5*IQR$. 
+First I made a table of outliers by filtering the dataset by order_amounts that are larger than Q3+1.5*IQR. From the first table, we can see that the maximum order amount of $704000 is coming from user #607 making bulk orders of 2000. This result made me wonder if there were other users making bulk orders, so I made another table summarizing total items a user has purchased at a shop. Fortunately, we see from the second table that no other user is making bulk orders from the same shop. 
 ```python
 Q1 = df.order_amount.quantile(q=0.25)
 Q2 = df.order_amount.quantile(q=0.5)
@@ -29,6 +29,22 @@ outliers = df[df.order_amount>=Q3+1.5*IQR]
 outliers.sort_values(by='order_amount',ascending=False).head(20)
 ```
 ![Screen Shot 2021-05-07 at 4 17 22 PM](https://user-images.githubusercontent.com/54642556/117517072-b6422f00-af4f-11eb-8b72-cb8ec6eca74d.png)
+
+```python
+bulk=outliers.groupby(['user_id','shop_id','total_items']).size().reset_index(name='order_count')
+bulk.sort_values(by='total_items',ascending=False).head()
+```
+![Screen Shot 2021-05-07 at 4 24 12 PM](https://user-images.githubusercontent.com/54642556/117517360-aa0aa180-af50-11eb-8319-f5a4eee5476a.png)
+
+From there, I decided to investigate where other outliers are coming from by calculating the price per shoes for each shop. The table below shows that shop ID 78 sells a shoe model that is \$25,725. It is likely that the shop sells a high-end shoe model. In conclusion, the two main sources of outliers that are driving up the AOV are users placing bulk orders and stores selling expensive shoes. 
+
+```python
+outliers['price'] = outliers.order_amount/outliers.total_items
+prices=outliers.groupby(['shop_id','price']).size().reset_index(name='order_count')
+prices.sort_values(by='price',ascending=False).head()
+```
+![Screen Shot 2021-05-07 at 4 27 38 PM](https://user-images.githubusercontent.com/54642556/117517539-256c5300-af51-11eb-8995-0633cc5bed25.png)
+
 
 
 
