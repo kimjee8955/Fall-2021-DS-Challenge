@@ -6,19 +6,28 @@ that generated the answers.)
 
 ### (a) Think about what could be going wrong with our calculation. Think about a better way to evaluate this data. 
 
-#### The high AOV of \$3,145.13 comes from naively calculating the mean of the order_amount of a highly right-skewed data without examining outliers such as bulk orders and stores that sell more expensive brands. The code snippets below describe my data exploration process.
+The high AOV of \$3,145.13 comes from naively calculating the mean of the order_amount of a highly right-skewed data without examining outliers such as bulk orders and stores that sell more expensive brands. The code snippets and outputs below describe my data exploration process.
 
 From the summary statistics, we can see that AOV is calculated by using the mean of order_amount. We also see that we have outliers because the third quartile is 390 while the maximum is 704000. Therefore, I decided to further investigate the overall distribution of order amounts.
+```python
+df.order_amount.describe()
+```
+![Screen Shot 2021-05-07 at 4 11 12 PM](https://user-images.githubusercontent.com/54642556/117516780-dae9d700-af4e-11eb-9f65-61d3601d5e0c.png)
+
+From both the histogram and the boxplot, we can see that we have many outliers and the data is heavily right-skewed. Let's further explore why we are getting such large outliers because they are causing AOV to be high.
+![Screen Shot 2021-05-07 at 4 11 48 PM](https://user-images.githubusercontent.com/54642556/117516797-f05f0100-af4e-11eb-97f0-de24d1ac0956.png)
+![Screen Shot 2021-05-07 at 4 12 01 PM](https://user-images.githubusercontent.com/54642556/117516803-f7860f00-af4e-11eb-8447-e11e66fe3ecb.png)
+
 
 
 ### (b) What metric would you report for this dataset?
 
-#### 1. I would report the median because it is less sensitive to outliers and our dataset is skewed.
-#### 2. If I want to report the mean, I can take advantage of the Central Limit Theorem and find the mean of the sampling distribution of the sample means.
+1. I would report the median because it is less sensitive to outliers and our dataset is skewed.
+2. If I want to report the mean, I can take advantage of the Central Limit Theorem and find the mean of the sampling distribution of the sample means.
 
 ### (c) What is its value?
 
-#### 1. The AOV is `$284` if we find the median of the entire dataset. The AOV is `$272` if we find the median after getting rid of outliers using IQR. However, it must be noted that this way of removing outliers is quite naive and we would need more domain knowledge to be more selective about the process. 
+1. The AOV is `$284` if we find the median of the entire dataset. The AOV is `$272` if we find the median after getting rid of outliers using IQR. However, it must be noted that this way of removing outliers is quite naive and we would need more domain knowledge to be more selective about the process. 
 ```python
 #median
 df.order_amount.median()
@@ -27,7 +36,7 @@ df.order_amount.median()
 df_clean = df[(df.order_amount < Q2 + IQR * 1.5) & (df.order_amount > Q2 - IQR * 1.5)]
 df_clean['order_amount'].median()
 ```
-#### 2. The AOV is `$283.29` if we find the mean of the sampling distribution of the sample means after getting rid of outliers. The code snippet below demonstrates how I did the sampling (I used a sample size of 500 and did 10000 iterations). We can see that the sampling distribution is approximately normal after performing this method.
+2. The AOV is `$283.29` if we find the mean of the sampling distribution of the sample means after getting rid of outliers. The code snippet below demonstrates how I did the sampling (I used a sample size of 500 and did 10000 iterations). We can see that the sampling distribution is approximately normal after performing this method.
 ```python
 np.random.seed(1)
 size= 500
