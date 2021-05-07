@@ -15,6 +15,7 @@ df.order_amount.describe()
 ![Screen Shot 2021-05-07 at 4 11 12 PM](https://user-images.githubusercontent.com/54642556/117516780-dae9d700-af4e-11eb-9f65-61d3601d5e0c.png)
 
 From both the histogram and the boxplot, we can see that we have many outliers and the data is heavily right-skewed. Let's further explore why we are getting such large outliers because they are causing AOV to be high.
+
 ![Screen Shot 2021-05-07 at 4 11 48 PM](https://user-images.githubusercontent.com/54642556/117516797-f05f0100-af4e-11eb-97f0-de24d1ac0956.png)
 ![Screen Shot 2021-05-07 at 4 12 01 PM](https://user-images.githubusercontent.com/54642556/117516803-f7860f00-af4e-11eb-8447-e11e66fe3ecb.png)
 
